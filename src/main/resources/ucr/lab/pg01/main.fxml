@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -10,6 +11,7 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -125,11 +127,95 @@
                   </SplitPane>
                </content>
             </Tab>
-          <Tab text="Fibonacci" />
             <Tab text="Gráfico">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
               </content>
+            </Tab>
+            <Tab text="Fibonacci">
+               <content>
+                  <SplitPane dividerPositions="0.5" prefHeight="288.0" prefWidth="606.0">
+                     <items>
+                        <VBox prefHeight="486.0" prefWidth="367.0" spacing="8.0" styleClass="panel">
+                           <children>
+                              <Label styleClass="panel-title" text="Arbol de llamadas recursivas" />
+                              <Canvas fx:id="canvasTree1" height="200.0" styleClass="tree-canvas" width="200.0" />
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" styleClass="panel">
+                           <children>
+                              <Label styleClass="action-label" text="Parámetros" />
+                              <HBox prefHeight="31.0" prefWidth="366.0">
+                                 <children>
+                                    <Label styleClass="param-label" text="n =" />
+                                    <Label fx:id="lblFactN1" styleClass="value-badge" text="5" />
+                                 </children>
+                              </HBox>
+                              <Slider fx:id="sliderFactN1" majorTickUnit="1.0" max="12.0" prefHeight="23.0" prefWidth="366.0" showTickLabels="true" showTickMarks="true" />
+                              <HBox prefHeight="30.0" prefWidth="366.0" styleClass="btn-ghost">
+                                 <children>
+                                    <Button fx:id="btnFactCalc1" mnemonicParsing="false" styleClass="btn-primary" text="Calcular" />
+                                    <Button fx:id="btnFactReset1" mnemonicParsing="false" styleClass="btn-primary" text="Limpiar">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <ToggleButton mnemonicParsing="false" styleClass="btn-primary" text="Con Memorización">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </ToggleButton>
+                                    <ToggleButton mnemonicParsing="false" styleClass="btn-primary" text="Sin Memorización">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </ToggleButton>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                              </HBox>
+                              <GridPane>
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="22.799999999999997" minHeight="10.0" prefHeight="22.799999999999997" vgrow="SOMETIMES" />
+                                    <RowConstraints maxHeight="6.599981689453124" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <VBox prefHeight="35.0" prefWidth="95.0">
+                                       <children>
+                                          <Label styleClass="stat-label" text="Resultado" />
+                                          <Label fx:id="lblFactResult1" styleClass="stat-value" text="--" />
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="42.0" prefWidth="366.0" GridPane.columnIndex="1">
+                                       <children>
+                                          <Label styleClass="stat-label" text="Llamadas" />
+                                          <Label fx:id="lblFactCall1" styleClass="stat-value" text="--" />
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="18.0" prefWidth="366.0" GridPane.rowIndex="1">
+                                       <children>
+                                          <Label styleClass="stat-label" text="Complejidad actual" />
+                                          <Label fx:id="lblComplexity1" styleClass="stat-value" text="--" />
+                                       </children>
+                                       <GridPane.margin>
+                                          <Insets top="5.0" />
+                                       </GridPane.margin>
+                                    </VBox>
+                                 </children>
+                              </GridPane>
+                              <Label styleClass="section-label" text="Pasos de ejecución" />
+                              <ListView fx:id="listSteps1" prefHeight="235.0" prefWidth="331.0" styleClass="steps-list" />
+                           </children>
+                        </VBox>
+                     </items>
+                  </SplitPane>
+               </content>
             </Tab>
         </tabs>
       </TabPane>
