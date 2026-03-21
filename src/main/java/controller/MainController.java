@@ -69,18 +69,6 @@ public class MainController implements Initializable {
     private RecursionEngine.CallNode lastRoot;
     private List<RecursionEngine.CallNode> factBFS;
     private final TreePainter painter = new TreePainter();
-    @javafx.fxml.FXML
-    private ToggleGroup tgTipo;
-    @javafx.fxml.FXML
-    private RadioButton rbFibonacci;
-    @javafx.fxml.FXML
-    private Button btnCalcularGeneral;
-    @javafx.fxml.FXML
-    private Button btnFibReset;
-    @javafx.fxml.FXML
-    private Button btnLimpiarGeneral;
-    @javafx.fxml.FXML
-    private Button btnFibCalc;
 
 
     @Override
@@ -241,15 +229,13 @@ public class MainController implements Initializable {
     private RadioButton rbFactorial;
     @javafx.fxml.FXML
     private Label lblResultadoGeneral;
-    @javafx.fxml.FXML
-    private Label lblComplejidadGeneral;
+
 
 
     @javafx.fxml.FXML
     private void handleLimpiarGeneral() {
         txtN.clear();
         lblResultadoGeneral.setText("--");
-        lblComplejidadGeneral.setText("--");
         engine.reset();
     }
 
@@ -276,26 +262,41 @@ public class MainController implements Initializable {
     // Método para la pestaña Fact-Fib (Imagen 3)
     @javafx.fxml.FXML
     private void handleCalcularGeneral() {
-        int n = Integer.parseInt(txtN.getText());
-        long start = System.nanoTime();
+        try {
+            int n = Integer.parseInt(txtN.getText());
+            long start = System.nanoTime();
 
-        if (rbFactorial.isSelected()) {
-            engine.computeFactorial(n);
-        } else {
-            engine.computeFibonacci(n, true);
+            if (rbFactorial.isSelected()) {
+                engine.computeFactorial(n);
+
+            } else {
+                // Fibonacci en la general suele ser con memo para no congelar la app
+                engine.computeFibonacci(n, true);
+                // ASIGNAR COMPLEJIDAD AQUÍ
+
+            }
+            long end = System.nanoTime();
+
+            // Actualizar Resultado
+            lblResultadoGeneral.setText(util.Utility.format(engine.getTreeRoot().result));
+
+            // Actualizar Tiempo (Asegúrate de que lblTimeGeneral esté inyectado con @FXML)
+            if (lblTimeGeneral != null) {
+                lblTimeGeneral.setText(util.Utility.format(end - start) + " ns");
+            }
+
+            // Llenar el TreeView (Estructura de cascada)
+            TreeItem<String> rootItem = new TreeItem<>("Llamadas para n = " + n);
+            for (RecursionEngine.Step step : engine.getSteps()) {
+                rootItem.getChildren().add(new TreeItem<>(step.description));
+            }
+            treeViewGeneral.setRoot(rootItem);
+            treeViewGeneral.setShowRoot(true);
+            rootItem.setExpanded(true); // Para que aparezca desplegado
+
+        } catch (NumberFormatException e) {
+            lblResultadoGeneral.setText("Error: N inválido");
         }
-        long end = System.nanoTime();
-
-        lblResultadoGeneral.setText(util.Utility.format(engine.getTreeRoot().result));
-        lblTimeGeneral.setText(util.Utility.format(end - start) + " ns");
-
-        // Llenar el TreeView
-        TreeItem<String> rootItem = new TreeItem<>("Árbol de llamadas recursivas");
-        for (RecursionEngine.Step step : engine.getSteps()) {
-            rootItem.getChildren().add(new TreeItem<>(step.description));
-        }
-        treeViewGeneral.setRoot(rootItem);
-        treeViewGeneral.setShowRoot(true);
     }
 
     @javafx.fxml.FXML
