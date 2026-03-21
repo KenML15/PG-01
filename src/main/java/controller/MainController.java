@@ -6,7 +6,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.chart.BarChart;
-import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import model.Recursion;
@@ -44,6 +43,24 @@ public class MainController implements Initializable {
     private BarChart<String, Number> chartTime;
     @javafx.fxml.FXML
     private BarChart<String, Number> chartCalls;
+    @javafx.fxml.FXML
+    private Canvas canvasFib;
+    @javafx.fxml.FXML
+    private Slider sliderFibN;
+    @javafx.fxml.FXML
+    private Label lblFibCalls;
+    @javafx.fxml.FXML
+    private Label lblFibResult; // Corregido para coincidir con FXML
+    @javafx.fxml.FXML
+    private RadioButton rbMemoOn;
+    @javafx.fxml.FXML
+    private ListView<String> listStepsFib;
+    @javafx.fxml.FXML
+    private Label lblfibComplexity;
+    @javafx.fxml.FXML
+    private Label lblTimeGeneral;
+    @javafx.fxml.FXML
+    private TreeView<String> treeViewGeneral;
 
 
 
@@ -52,6 +69,18 @@ public class MainController implements Initializable {
     private RecursionEngine.CallNode lastRoot;
     private List<RecursionEngine.CallNode> factBFS;
     private final TreePainter painter = new TreePainter();
+    @javafx.fxml.FXML
+    private ToggleGroup tgTipo;
+    @javafx.fxml.FXML
+    private RadioButton rbFibonacci;
+    @javafx.fxml.FXML
+    private Button btnCalcularGeneral;
+    @javafx.fxml.FXML
+    private Button btnFibReset;
+    @javafx.fxml.FXML
+    private Button btnLimpiarGeneral;
+    @javafx.fxml.FXML
+    private Button btnFibCalc;
 
 
     @Override
@@ -63,8 +92,11 @@ public class MainController implements Initializable {
 
 
     private void setupFactTab() {
-        sliderFactN.setMin(1); sliderFactN.setMax(12); sliderFactN.setValue(5);
-        sliderFactN.setMajorTickUnit(1); sliderFactN.setSnapToTicks(true);
+        sliderFactN.setMin(1);
+        sliderFactN.setMax(12);
+        sliderFactN.setValue(5);
+        sliderFactN.setMajorTickUnit(1);
+        sliderFactN.setSnapToTicks(true);
         sliderFactN.valueProperty().addListener((observable, oldValue, newValue) -> {
             lblFactN.setText(String.valueOf(newValue.intValue()));
         });
@@ -81,11 +113,6 @@ public class MainController implements Initializable {
 
     private void runFactorial() {
         int n = (int) sliderFactN.getValue();
-//        AtomicInteger counter = new AtomicInteger(0);
-//        long result = Recursion.factorial(n, counter);
-//        lblFactResult.setText(util.Utility.format(result));
-//        lblFactCalls.setText(String.valueOf(counter));
-
         engine.computeFactorial(n);
         lastRoot = engine.getTreeRoot();
         factBFS = TreePainter.collectBFS(lastRoot);
@@ -94,7 +121,7 @@ public class MainController implements Initializable {
         ObservableList<String> items = FXCollections.observableArrayList();
         for (int i = 0; i < engine.getSteps().size(); i++) {
             RecursionEngine.Step step = engine.getSteps().get(i);
-            items.add(String.format("[%02d] %s", i+1, step.description));
+            items.add(String.format("[%02d] %s", i + 1, step.description));
         }
         listSteps.setItems(items); //setteamos la lista de pasos recursivos
         lblFactResult.setText(util.Utility.format(engine.getTreeRoot().result));
@@ -151,13 +178,13 @@ public class MainController implements Initializable {
                 Map<Integer, Long> map = new HashMap<>();
                 long startH = System.nanoTime();
                 Recursion.fibMemo(n, map, new AtomicInteger(0));
-                seriesTimeHash.getData().add(new XYChart.Data<>(String.valueOf(n), (System.nanoTime() - startH) /5));
+                seriesTimeHash.getData().add(new XYChart.Data<>(String.valueOf(n), (System.nanoTime() - startH) / 5));
 
                 long[] memo = new long[n + 1];
                 java.util.Arrays.fill(memo, -1);
                 long startA = System.nanoTime();
                 Recursion.fibMemoArray(n, memo, new AtomicInteger(0));
-                seriesTimeArray.getData().add(new XYChart.Data<>(String.valueOf(n), (System.nanoTime() - startA) /5));
+                seriesTimeArray.getData().add(new XYChart.Data<>(String.valueOf(n), (System.nanoTime() - startA) / 5));
 
 
             }
@@ -174,7 +201,7 @@ public class MainController implements Initializable {
                 seriesCallsHash.getData().add(new XYChart.Data<>(String.valueOf(n), counter.get()));
 
                 counter.set(0);
-                Recursion.fibMemoArray(n, new long[n+1], counter);
+                Recursion.fibMemoArray(n, new long[n + 1], counter);
                 seriesCallsArray.getData().add(new XYChart.Data<>(String.valueOf(n), counter.get()));
             }
 
@@ -208,11 +235,14 @@ public class MainController implements Initializable {
         painter.paint(canvasTree, lastRoot, factBFS.size(), factBFS);
     }
 
-    @javafx.fxml.FXML private TextField txtN;
-    @javafx.fxml.FXML private RadioButton rbFactorial;
-    @javafx.fxml.FXML private Label lblResultadoGeneral;
-    @javafx.fxml.FXML private Label lblComplejidadGeneral;
-
+    @javafx.fxml.FXML
+    private TextField txtN;
+    @javafx.fxml.FXML
+    private RadioButton rbFactorial;
+    @javafx.fxml.FXML
+    private Label lblResultadoGeneral;
+    @javafx.fxml.FXML
+    private Label lblComplejidadGeneral;
 
 
     @javafx.fxml.FXML
@@ -223,15 +253,11 @@ public class MainController implements Initializable {
         engine.reset();
     }
 
-    @javafx.fxml.FXML private Canvas canvasFib;
-    @javafx.fxml.FXML private Slider sliderFibN;
-    @javafx.fxml.FXML private Label lblFibCalls;
-    @javafx.fxml.FXML private RadioButton rbUseMemo;
 
     @javafx.fxml.FXML
     private void handleFibonacciTab() {
         int n = (int) sliderFibN.getValue();
-        boolean useMemo = rbUseMemo.isSelected();
+        boolean useMemo = rbMemoOn.isSelected();
 
         // Limpiar canvas antes de dibujar
         canvasFib.getGraphicsContext2D().clearRect(0, 0, canvasFib.getWidth(), canvasFib.getHeight());
@@ -246,16 +272,6 @@ public class MainController implements Initializable {
         List<RecursionEngine.CallNode> bfs = TreePainter.collectBFS(lastRoot);
         painter.paint(canvasFib, lastRoot, bfs.size(), bfs);
     }
-
-    @javafx.fxml.FXML private TreeView<String> treeViewGeneral;
-    @javafx.fxml.FXML private Label lblTimeGeneral;
-
-    // Elementos para la pestaña Fibonacci
-    //@javafx.fxml.FXML private Canvas canvasFib;
-    //@javafx.fxml.FXML private Slider sliderFibN;
-    //@javafx.fxml.FXML private Label lblFibCalls;
-    @javafx.fxml.FXML private Label lblFibSaved; // Llamadas ahorradas
-    @javafx.fxml.FXML private RadioButton rbMemoOn; // "Con Memorización"
 
     // Método para la pestaña Fact-Fib (Imagen 3)
     @javafx.fxml.FXML
@@ -282,25 +298,59 @@ public class MainController implements Initializable {
         treeViewGeneral.setShowRoot(true);
     }
 
+    @javafx.fxml.FXML
+    private void resetFibTab() {
+        // 1. Limpiar textos
+        lblFibResult.setText("-");
+        lblFibCalls.setText("-");
+        lblfibComplexity.setText("-");
+        if (lblfibComplexity != null) lblfibComplexity.setText("-");
+
+        // 2. Limpiar lista y dibujo
+        if (listStepsFib != null) listStepsFib.getItems().clear();
+        if (canvasFib != null) {
+            canvasFib.getGraphicsContext2D().clearRect(0, 0, canvasFib.getWidth(), canvasFib.getHeight());
+        }
+
+        // 3. Resetear control
+        sliderFibN.setValue(0);
+    }
+
     // Método para la pestaña Fibonacci (Imagen 1)
     @javafx.fxml.FXML
     private void runFibonacciTab() {
-        int n = (int) sliderFibN.getValue();
-        boolean useMemo = rbMemoOn.isSelected();
+        try {
+            int n = (int) sliderFibN.getValue();
+            boolean useMemo = rbMemoOn.isSelected();
 
-        engine.computeFibonacci(n, useMemo);
-        RecursionEngine.CallNode root = engine.getTreeRoot();
+            // 1. Limpiar el área de dibujo
+            canvasFib.getGraphicsContext2D().clearRect(0, 0, canvasFib.getWidth(), canvasFib.getHeight());
 
-        // En Fibonacci, las llamadas ahorradas son la diferencia entre
-        // llamadas exponenciales y llamadas lineales con memo
-        int totalPossible = (int) Math.pow(2, n); // Simplificación teórica
-        int calls = engine.getCallCount();
+            // 2. Calcular la lógica
+            engine.computeFibonacci(n, useMemo);
+            RecursionEngine.CallNode root = engine.getTreeRoot();
 
-        lblFibCalls.setText(String.valueOf(calls));
-        lblFibSaved.setText(String.valueOf(Math.max(0, totalPossible - calls)));
+            // 3. Actualizar la Interfaz de Usuario
+            lblFibCalls.setText(String.valueOf(engine.getCallCount()));
+            if (lblFibResult != null) {
+                lblFibResult.setText(util.Utility.format(root.result));
+            }
 
-        // Dibujar el árbol binario
-        List<RecursionEngine.CallNode> bfs = TreePainter.collectBFS(root);
-        painter.paint(canvasFib, root, bfs.size(), bfs);
+            lblfibComplexity.setText("O(n) = O(" + n + ") llamadas");
+
+            // 4. Llenar la lista de pasos (opcional pero recomendado)
+            ObservableList<String> items = FXCollections.observableArrayList();
+            for (RecursionEngine.Step step : engine.getSteps()) {
+                items.add(step.description);
+            }
+            if (listStepsFib != null) listStepsFib.setItems(items);
+
+            // 5. Dibujar el árbol visual
+            List<RecursionEngine.CallNode> bfs = TreePainter.collectBFS(root);
+            painter.paint(canvasFib, root, bfs.size(), bfs);
+
+        } catch (Exception e) {
+            System.err.println("Error en Fibonacci: " + e.getMessage());
+        }
     }
 }
