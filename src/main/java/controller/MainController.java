@@ -61,24 +61,28 @@ public class MainController implements Initializable {
         System.out.println("El controlador cargó correctamente");
     }
 
+
     private void setupFactTab() {
-        sliderFactN.setMin(1);
-        sliderFactN.setMax(12);
-        sliderFactN.setValue(5);
-        sliderFactN.setMajorTickUnit(1);
-        sliderFactN.setSnapToTicks(true);
+        sliderFactN.setMin(1); sliderFactN.setMax(12); sliderFactN.setValue(5);
+        sliderFactN.setMajorTickUnit(1); sliderFactN.setSnapToTicks(true);
         sliderFactN.valueProperty().addListener((observable, oldValue, newValue) -> {
             lblFactN.setText(String.valueOf(newValue.intValue()));
         });
         btnFactCalc.setOnAction(event -> runFactorial());
-        btnFactReset.setOnAction(event -> resetFactTab());
+        btnFactReset.setOnAction(e -> resetFactTab());
+    }
 
+    private void resetFactTab() {
+        lblFactResult.setText("-");
+        lblFactCalls.setText("-");
+        lblComplexity.setText("-");
+        listSteps.getItems().clear();
     }
 
     private void runFactorial() {
         int n = (int) sliderFactN.getValue();
-//        AtomicInteger counter= new AtomicInteger(0);
-//        long result= Recursion.factorial(n,counter);
+//        AtomicInteger counter = new AtomicInteger(0);
+//        long result = Recursion.factorial(n, counter);
 //        lblFactResult.setText(util.Utility.format(result));
 //        lblFactCalls.setText(String.valueOf(counter));
 
@@ -88,25 +92,17 @@ public class MainController implements Initializable {
 
         //llenamos la lista de pasos
         ObservableList<String> items = FXCollections.observableArrayList();
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < engine.getSteps().size(); i++) {
             RecursionEngine.Step step = engine.getSteps().get(i);
-            items.add(String.format("[%02d] %s", i + 1, step.description));
+            items.add(String.format("[%02d] %s", i+1, step.description));
         }
         listSteps.setItems(items); //setteamos la lista de pasos recursivos
         lblFactResult.setText(util.Utility.format(engine.getTreeRoot().result));
         lblFactCalls.setText(String.valueOf(engine.getCallCount()));
-        lblComplexity.setText("O(n) = O(" + n + ") llamadas ");
+        lblComplexity.setText("O(n) = O(" + n + ") llamadas");
 
-        //se dibuja el árbol de llamadas en el canva
+        //dibujamos el árbol de llamadas en el canva
         painter.paint(canvasTree, lastRoot, factBFS.size(), factBFS);
-
-    }
-
-    private void resetFactTab() {
-        lblFactResult.setText("-");
-        lblFactCalls.setText("-");
-        lblComplexity.setText("-");
-        listSteps.getItems().clear();
     }
 
     @SuppressWarnings("unchecked")
