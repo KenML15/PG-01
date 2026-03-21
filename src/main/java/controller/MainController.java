@@ -8,10 +8,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Slider;
+import javafx.scene.control.*;
 import model.Recursion;
 import model.RecursionEngine;
 import model.TreePainter;
@@ -193,5 +190,121 @@ public class MainController implements Initializable {
 
     }
 
+    private void runFibonacci() {
+        int n = (int) sliderFactN.getValue(); // Puedes usar el mismo slider o crear uno nuevo
+        boolean useMemo = true; // Esto podría venir de un CheckBox en la UI
 
+        engine.computeFibonacci(n, useMemo);
+        lastRoot = engine.getTreeRoot();
+        factBFS = TreePainter.collectBFS(lastRoot);
+
+        // Actualizar UI
+        ObservableList<String> items = FXCollections.observableArrayList();
+        for (RecursionEngine.Step step : engine.getSteps()) {
+            items.add(step.description);
+        }
+        listSteps.setItems(items);
+
+        lblFactResult.setText(String.valueOf(lastRoot.result));
+        lblFactCalls.setText(String.valueOf(engine.getCallCount()));
+
+        // Dibujar el árbol binario de Fibonacci
+        painter.paint(canvasTree, lastRoot, factBFS.size(), factBFS);
+    }
+
+    @javafx.fxml.FXML private TextField txtN;
+    @javafx.fxml.FXML private RadioButton rbFactorial;
+    @javafx.fxml.FXML private Label lblResultadoGeneral;
+    @javafx.fxml.FXML private Label lblComplejidadGeneral;
+
+
+
+    @javafx.fxml.FXML
+    private void handleLimpiarGeneral() {
+        txtN.clear();
+        lblResultadoGeneral.setText("--");
+        lblComplejidadGeneral.setText("--");
+        engine.reset();
+    }
+
+    @javafx.fxml.FXML private Canvas canvasFib;
+    @javafx.fxml.FXML private Slider sliderFibN;
+    @javafx.fxml.FXML private Label lblFibCalls;
+    @javafx.fxml.FXML private RadioButton rbUseMemo;
+
+    @javafx.fxml.FXML
+    private void handleFibonacciTab() {
+        int n = (int) sliderFibN.getValue();
+        boolean useMemo = rbUseMemo.isSelected();
+
+        // Limpiar canvas antes de dibujar
+        canvasFib.getGraphicsContext2D().clearRect(0, 0, canvasFib.getWidth(), canvasFib.getHeight());
+
+        engine.computeFibonacci(n, useMemo);
+        lastRoot = engine.getTreeRoot();
+
+        // Mostramos cuántas llamadas tomó (aquí verás la magia de la memoización)
+        lblFibCalls.setText(String.valueOf(engine.getCallCount()));
+
+        // Dibujar
+        List<RecursionEngine.CallNode> bfs = TreePainter.collectBFS(lastRoot);
+        painter.paint(canvasFib, lastRoot, bfs.size(), bfs);
+    }
+
+    @javafx.fxml.FXML private TreeView<String> treeViewGeneral;
+    @javafx.fxml.FXML private Label lblTimeGeneral;
+
+    // Elementos para la pestaña Fibonacci
+    //@javafx.fxml.FXML private Canvas canvasFib;
+    //@javafx.fxml.FXML private Slider sliderFibN;
+    //@javafx.fxml.FXML private Label lblFibCalls;
+    @javafx.fxml.FXML private Label lblFibSaved; // Llamadas ahorradas
+    @javafx.fxml.FXML private RadioButton rbMemoOn; // "Con Memorización"
+
+    // Método para la pestaña Fact-Fib (Imagen 3)
+    @javafx.fxml.FXML
+    private void handleCalcularGeneral() {
+        int n = Integer.parseInt(txtN.getText());
+        long start = System.nanoTime();
+
+        if (rbFactorial.isSelected()) {
+            engine.computeFactorial(n);
+        } else {
+            engine.computeFibonacci(n, true);
+        }
+        long end = System.nanoTime();
+
+        lblResultadoGeneral.setText(util.Utility.format(engine.getTreeRoot().result));
+        lblTimeGeneral.setText(util.Utility.format(end - start) + " ns");
+
+        // Llenar el TreeView
+        TreeItem<String> rootItem = new TreeItem<>("Árbol de llamadas recursivas");
+        for (RecursionEngine.Step step : engine.getSteps()) {
+            rootItem.getChildren().add(new TreeItem<>(step.description));
+        }
+        treeViewGeneral.setRoot(rootItem);
+        treeViewGeneral.setShowRoot(true);
+    }
+
+    // Método para la pestaña Fibonacci (Imagen 1)
+    @javafx.fxml.FXML
+    private void runFibonacciTab() {
+        int n = (int) sliderFibN.getValue();
+        boolean useMemo = rbMemoOn.isSelected();
+
+        engine.computeFibonacci(n, useMemo);
+        RecursionEngine.CallNode root = engine.getTreeRoot();
+
+        // En Fibonacci, las llamadas ahorradas son la diferencia entre
+        // llamadas exponenciales y llamadas lineales con memo
+        int totalPossible = (int) Math.pow(2, n); // Simplificación teórica
+        int calls = engine.getCallCount();
+
+        lblFibCalls.setText(String.valueOf(calls));
+        lblFibSaved.setText(String.valueOf(Math.max(0, totalPossible - calls)));
+
+        // Dibujar el árbol binario
+        List<RecursionEngine.CallNode> bfs = TreePainter.collectBFS(root);
+        painter.paint(canvasFib, root, bfs.size(), bfs);
+    }
 }
