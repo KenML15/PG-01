@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
@@ -11,7 +13,6 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -21,203 +22,152 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
-   <top>
-      <VBox prefHeight="87.0" prefWidth="600.0" styleClass="header-bar" BorderPane.alignment="CENTER">
-         <children>
-            <HBox>
-               <children>
-                  <Label styleClass="header-badge" text="PG-01" />
-                  <VBox>
-                     <children>
-                        <Label prefHeight="17.0" prefWidth="247.0" styleClass="header-title" text="Recursividad aplicada en JavaFX" />
-                        <Label prefHeight="17.0" prefWidth="255.0" styleClass="header-sub" text="IF-3001 Algoritmos y Estructuras de Datos" />
-                     </children>
-                  </VBox>
-               </children>
-            </HBox>
-         </children>
-      </VBox>
-   </top>
-   <center>
-      <TabPane prefHeight="227.0" prefWidth="600.0" styleClass="main-tabs" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
-        <tabs>
-            <Tab text="Fact-Fib">
-               <content>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                     <children>
-                        <AnchorPane layoutX="1.0" layoutY="-8.0" prefHeight="326.0" prefWidth="617.0">
-                           <children>
-                              <TextField layoutX="15.0" layoutY="18.0" prefHeight="35.0" prefWidth="157.0" styleClass="param-label" text="valor de n: " />
-                              <RadioButton layoutX="183.0" layoutY="18.0" mnemonicParsing="false" text="Factorial " />
-                              <Button layoutX="15.0" layoutY="59.0" mnemonicParsing="false" styleClass="btn-primary" text="Calcular" />
-                              <Label layoutX="16.0" layoutY="94.0" styleClass="param-label" text="Resultado:" />
-                              <RadioButton layoutX="252.0" layoutY="18.0" mnemonicParsing="false" text="Fibonacci" />
-                              <Label layoutX="16.0" layoutY="146.0" styleClass="param-label" text="T(n):" />
-                              <TreeView layoutX="259.0" layoutY="56.0" prefHeight="230.0" prefWidth="432.0" />
-                              <Button layoutX="94.0" layoutY="59.0" mnemonicParsing="false" styleClass="btn-ghost" text="Limpiar" />
-                              <Label layoutX="23.0" layoutY="119.0" text="--" />
-                              <Label layoutX="23.0" layoutY="171.0" text="--" />
-                           </children>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/24" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
+    <top>
+        <VBox prefHeight="87.0" prefWidth="600.0" styleClass="header-bar" BorderPane.alignment="CENTER">
+            <children>
+                <HBox>
+                    <children>
+                        <Label styleClass="header-badge" text="PG-01" />
+                        <VBox>
+                            <children>
+                                <Label prefHeight="17.0" prefWidth="247.0" styleClass="header-title" text="Recursividad aplicada en JavaFX" />
+                                <Label prefHeight="17.0" prefWidth="255.0" styleClass="header-sub" text="IF-3001 Algoritmos y Estructuras de Datos" />
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </top>
+    <center>
+        <TabPane prefHeight="227.0" prefWidth="600.0" styleClass="main-tabs" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+            <tabs>
+                <Tab text="Fact-Fib">
+                    <content>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                            <children>
+                                <AnchorPane layoutX="1.0" layoutY="-8.0" prefHeight="326.0" prefWidth="617.0">
+                                    <children>
+                                        <TextField layoutX="15.0" layoutY="18.0" prefHeight="35.0" prefWidth="157.0" styleClass="param-label" text="valor de n: " />
+                                        <RadioButton layoutX="183.0" layoutY="18.0" mnemonicParsing="false" text="Factorial " />
+                                        <Button layoutX="15.0" layoutY="59.0" mnemonicParsing="false" styleClass="btn-primary" text="Calcular" />
+                                        <Label layoutX="16.0" layoutY="94.0" styleClass="param-label" text="Resultado:" />
+                                        <RadioButton layoutX="252.0" layoutY="18.0" mnemonicParsing="false" text="Fibonacci" />
+                                        <Label layoutX="16.0" layoutY="146.0" styleClass="param-label" text="T(n):" />
+                                        <TreeView layoutX="259.0" layoutY="56.0" prefHeight="230.0" prefWidth="432.0" />
+                                        <Button layoutX="94.0" layoutY="59.0" mnemonicParsing="false" styleClass="btn-ghost" text="Limpiar" />
+                                        <Label layoutX="23.0" layoutY="119.0" text="--" />
+                                        <Label layoutX="23.0" layoutY="171.0" text="--" />
+                                    </children>
+                                </AnchorPane>
+                            </children>
                         </AnchorPane>
-                     </children>
-                  </AnchorPane>
-               </content>
-            </Tab>
-          <Tab text="Factorial">
-               <content>
-                  <SplitPane dividerPositions="0.5" prefHeight="200.0" prefWidth="200.0">
-                     <items>
-                        <VBox prefHeight="251.0" prefWidth="296.0" styleClass="panel">
-                           <children>
-                              <Label styleClass="panel-title" text="Árbol De Llamadas recursivas" />
-                              <Canvas fx:id="canvasTree" height="200.0" styleClass="tree-canvas" width="200.0" />
-                           </children>
-                        </VBox>
-                        <VBox prefHeight="200.0" prefWidth="303.0" styleClass="panel">
-                           <children>
-                              <Label styleClass="action-label" text="Parámetros" />
-                              <HBox prefHeight="19.0" prefWidth="297.0">
-                                 <children>
-                                    <Label styleClass="param-label" text="n=" />
-                                    <Label fx:id="lblFactN" styleClass="value-badge" text="5" />
-                                 </children>
-                              </HBox>
-                              <Slider fx:id="sliderFactN" prefHeight="21.0" prefWidth="297.0" showTickLabels="true" />
-                              <HBox prefHeight="36.0" prefWidth="297.0">
-                                 <children>
-                                    <Button fx:id="btnFactCalc" mnemonicParsing="false" styleClass="btn-primary" text="Calcular" />
-                                    <Button fx:id="btnFactReset" mnemonicParsing="false" styleClass="btn-ghost" text="Limpiar" />
-                                 </children>
-                              </HBox>
-                              <GridPane prefHeight="61.0" prefWidth="297.0">
-                                <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                </rowConstraints>
-                                 <children>
-                                    <VBox prefHeight="200.0" prefWidth="100.0">
-                                       <children>
-                                          <Label styleClass="stat-label" text="Resultado" />
-                                          <Label fx:id="lblFactResult" styleClass="stat-value" text="--" />
-                                       </children>
-                                    </VBox>
-                                    <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
-                                       <children>
-                                          <Label styleClass="stat-label" text="Complejidad actual" />
-                                          <Label fx:id="lblComplexity" styleClass="stat-value-sm" text="--" />
-                                       </children>
-                                    </VBox>
-                                    <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
-                                       <children>
-                                          <Label styleClass="stat-label" text="Llamadas" />
-                                          <Label fx:id="lblFactCalls" styleClass="stat-value" text="--" />
-                                       </children>
-                                    </VBox>
-                                 </children>
-                              </GridPane>
-                              <Label styleClass="section-label" text="Pasos de ejecución" />
-                              <ListView fx:id="listSteps" prefHeight="107.0" prefWidth="297.0" styleClass="steps-list" />
-                           </children></VBox>
-                     </items>
-                  </SplitPane>
-               </content>
-            </Tab>
-            <Tab text="Gráfico">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-              </content>
-            </Tab>
-            <Tab text="Fibonacci">
-               <content>
-                  <SplitPane dividerPositions="0.5" prefHeight="288.0" prefWidth="606.0">
-                     <items>
-                        <VBox prefHeight="486.0" prefWidth="367.0" spacing="8.0" styleClass="panel">
-                           <children>
-                              <Label styleClass="panel-title" text="Arbol de llamadas recursivas" />
-                              <Canvas fx:id="canvasTree1" height="200.0" styleClass="tree-canvas" width="200.0" />
-                           </children>
-                        </VBox>
-                        <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" styleClass="panel">
-                           <children>
-                              <Label styleClass="action-label" text="Parámetros" />
-                              <HBox prefHeight="31.0" prefWidth="366.0">
-                                 <children>
-                                    <Label styleClass="param-label" text="n =" />
-                                    <Label fx:id="lblFactN1" styleClass="value-badge" text="5" />
-                                 </children>
-                              </HBox>
-                              <Slider fx:id="sliderFactN1" majorTickUnit="1.0" max="12.0" prefHeight="23.0" prefWidth="366.0" showTickLabels="true" showTickMarks="true" />
-                              <HBox prefHeight="30.0" prefWidth="366.0" styleClass="btn-ghost">
-                                 <children>
-                                    <Button fx:id="btnFactCalc1" mnemonicParsing="false" styleClass="btn-primary" text="Calcular" />
-                                    <Button fx:id="btnFactReset1" mnemonicParsing="false" styleClass="btn-primary" text="Limpiar">
-                                       <HBox.margin>
-                                          <Insets left="10.0" />
-                                       </HBox.margin>
-                                    </Button>
-                                    <ToggleButton mnemonicParsing="false" styleClass="btn-primary" text="Con Memorización">
-                                       <HBox.margin>
-                                          <Insets left="10.0" />
-                                       </HBox.margin>
-                                    </ToggleButton>
-                                    <ToggleButton mnemonicParsing="false" styleClass="btn-primary" text="Sin Memorización">
-                                       <HBox.margin>
-                                          <Insets left="10.0" />
-                                       </HBox.margin>
-                                    </ToggleButton>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                              </HBox>
-                              <GridPane>
-                                 <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                 </columnConstraints>
-                                 <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints maxHeight="22.799999999999997" minHeight="10.0" prefHeight="22.799999999999997" vgrow="SOMETIMES" />
-                                    <RowConstraints maxHeight="6.599981689453124" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
-                                 </rowConstraints>
-                                 <children>
-                                    <VBox prefHeight="35.0" prefWidth="95.0">
-                                       <children>
-                                          <Label styleClass="stat-label" text="Resultado" />
-                                          <Label fx:id="lblFactResult1" styleClass="stat-value" text="--" />
-                                       </children>
-                                    </VBox>
-                                    <VBox prefHeight="42.0" prefWidth="366.0" GridPane.columnIndex="1">
-                                       <children>
-                                          <Label styleClass="stat-label" text="Llamadas" />
-                                          <Label fx:id="lblFactCall1" styleClass="stat-value" text="--" />
-                                       </children>
-                                    </VBox>
-                                    <VBox prefHeight="18.0" prefWidth="366.0" GridPane.rowIndex="1">
-                                       <children>
-                                          <Label styleClass="stat-label" text="Complejidad actual" />
-                                          <Label fx:id="lblComplexity1" styleClass="stat-value" text="--" />
-                                       </children>
-                                       <GridPane.margin>
-                                          <Insets top="5.0" />
-                                       </GridPane.margin>
-                                    </VBox>
-                                 </children>
-                              </GridPane>
-                              <Label styleClass="section-label" text="Pasos de ejecución" />
-                              <ListView fx:id="listSteps1" prefHeight="235.0" prefWidth="331.0" styleClass="steps-list" />
-                           </children>
-                        </VBox>
-                     </items>
-                  </SplitPane>
-               </content>
-            </Tab>
-        </tabs>
-      </TabPane>
-   </center>
+                    </content>
+                </Tab>
+                <Tab text="Factorial">
+                    <content>
+                        <SplitPane dividerPositions="0.5" prefHeight="200.0" prefWidth="200.0">
+                            <items>
+                                <VBox prefHeight="251.0" prefWidth="296.0" styleClass="panel">
+                                    <children>
+                                        <Label styleClass="panel-title" text="Árbol De Llamadas recursivas" />
+                                        <Canvas fx:id="canvasTree" height="200.0" styleClass="tree-canvas" width="200.0" />
+                                    </children>
+                                </VBox>
+                                <VBox prefHeight="200.0" prefWidth="303.0" styleClass="panel">
+                                    <children>
+                                        <Label styleClass="action-label" text="Parámetros" />
+                                        <HBox prefHeight="19.0" prefWidth="297.0">
+                                            <children>
+                                                <Label styleClass="param-label" text="n=" />
+                                                <Label fx:id="lblFactN" styleClass="value-badge" text="5" />
+                                            </children>
+                                        </HBox>
+                                        <Slider fx:id="sliderFactN" prefHeight="21.0" prefWidth="297.0" showTickLabels="true" />
+                                        <HBox prefHeight="36.0" prefWidth="297.0">
+                                            <children>
+                                                <Button fx:id="btnFactCalc" mnemonicParsing="false" styleClass="btn-primary" text="Calcular" />
+                                                <Button fx:id="btnFactReset" mnemonicParsing="false" styleClass="btn-ghost" text="Limpiar" />
+                                            </children>
+                                        </HBox>
+                                        <GridPane prefHeight="61.0" prefWidth="297.0">
+                                            <columnConstraints>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            </rowConstraints>
+                                            <children>
+                                                <VBox prefHeight="200.0" prefWidth="100.0">
+                                                    <children>
+                                                        <Label styleClass="stat-label" text="Resultado" />
+                                                        <Label fx:id="lblFactResult" styleClass="stat-value" text="--" />
+                                                    </children>
+                                                </VBox>
+                                                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
+                                                    <children>
+                                                        <Label styleClass="stat-label" text="Complejidad actual" />
+                                                        <Label fx:id="lblComplexity" styleClass="stat-value-sm" text="--" />
+                                                    </children>
+                                                </VBox>
+                                                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
+                                                    <children>
+                                                        <Label styleClass="stat-label" text="Llamadas" />
+                                                        <Label fx:id="lblFactCalls" styleClass="stat-value" text="--" />
+                                                    </children>
+                                                </VBox>
+                                            </children>
+                                        </GridPane>
+                                        <Label styleClass="section-label" text="Pasos de ejecución" />
+                                        <ListView fx:id="listSteps" prefHeight="107.0" prefWidth="297.0" styleClass="steps-list" />
+                                    </children></VBox>
+                            </items>
+                        </SplitPane>
+                    </content>
+                </Tab>
+                <Tab text="Fibonacci" />
+                <Tab text="Gráfico">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <children>
+                                <HBox alignment="CENTER" layoutX="172.0" layoutY="66.0" spacing="20.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                                    <children>
+                                        <VBox prefHeight="200.0" prefWidth="100.0" styleClass="panel" HBox.hgrow="ALWAYS">
+                                            <children>
+                                                <Label styleClass="panel-title" text="Tiempo de ejecución T(n):" />
+                                                <BarChart fx:id="chartTime" VBox.vgrow="ALWAYS">
+                                                    <xAxis>
+                                                        <CategoryAxis label="n" side="BOTTOM" />
+                                                    </xAxis>
+                                                    <yAxis>
+                                                        <NumberAxis autoRanging="false" side="LEFT" tickUnit="10000.0" upperBound="100000.0" />
+                                                    </yAxis>
+                                                </BarChart>
+                                            </children>
+                                        </VBox>
+                                        <VBox prefHeight="200.0" prefWidth="100.0" styleClass="panel" HBox.hgrow="ALWAYS">
+                                            <children>
+                                                <Label styleClass="panel-title" text="Número de llamadas recursivas:" />
+                                                <BarChart fx:id="chartCalls" VBox.vgrow="ALWAYS">
+                                                    <xAxis>
+                                                        <CategoryAxis label="n" side="BOTTOM" />
+                                                    </xAxis>
+                                                    <yAxis>
+                                                        <NumberAxis autoRanging="false" side="LEFT" tickUnit="25.0" upperBound="200.0" />
+                                                    </yAxis>
+                                                </BarChart>
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </HBox>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </center>
 </BorderPane>

@@ -121,4 +121,57 @@ public class RecursionEngine {
     public CallNode getTreeRoot() {
         return treeRoot;
     }
+
+    public long computeFibonacci(int n, boolean useMemo) {
+        reset(); // Limpia estados previos
+        treeRoot = new CallNode("fib(" + n + ")", n, 0);
+        long result = fibonacci(n, treeRoot, 0, useMemo);
+        steps.add(new Step("Resultado final", "fib(" + n + ") = " + result, result, useMemo, callCount));
+        return result;
+    }
+
+    private long fibonacci(int n, CallNode parent, int depth, boolean useMemo) {
+        callCount++;
+        String label = "fib(" + n + ")";
+
+        // 1. Verificar Memoización (si está activa)
+        if (useMemo && memo.containsKey(n)) {
+            long mRes = memo.get(n);
+            parent.result = mRes;
+            parent.fromMemo = true; // El TreePainter usará COL_MEMO
+            steps.add(new Step("Memo: " + label, "Recuperado de caché: " + mRes, mRes, true, callCount));
+            return mRes;
+        }
+
+        steps.add(new Step("Llamada #" + callCount + ": " + label, "Calculando " + label, -1, false, callCount));
+
+        // 2. Casos Base
+        if (n <= 1) {
+            parent.result = n;
+            steps.add(new Step("Caso Base: " + label + " = " + n, label + " = " + n, n, false, callCount));
+            return n;
+        }
+
+        // 3. Llamadas Recursivas (Árbol Binario)
+        // Hijo Izquierdo: n-1
+        CallNode leftChild = new CallNode("fib(" + (n - 1) + ")", n - 1, depth + 1);
+        parent.children.add(leftChild);
+        long a = fibonacci(n - 1, leftChild, depth + 1, useMemo);
+
+        // Hijo Derecho: n-2
+        CallNode rightChild = new CallNode("fib(" + (n - 2) + ")", n - 2, depth + 1);
+        parent.children.add(rightChild);
+        long b = fibonacci(n - 2, rightChild, depth + 1, useMemo);
+
+        // 4. Retorno y Almacenamiento
+        long result = a + b;
+        parent.result = result;
+
+        if (useMemo) {
+            memo.put(n, result);
+        }
+
+        steps.add(new Step("Retorno: " + label + " = " + a + " + " + b + " = " + result, label + " = " + result, result, false, callCount));
+        return result;
+    }
 }
